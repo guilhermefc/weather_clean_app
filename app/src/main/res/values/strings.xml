@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">WeatherCleanApp</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+
+    <string name="min_and_max_temp">L:%1$s° H:%2$s°</string>
+    <string name="temperature">%1$s°</string>
+    <string name="city_date">%1$s - %2$s</string>
+    <string name="refresh_button">Refresh</string>
+</resources>
