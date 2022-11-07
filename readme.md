@@ -1,4 +1,4 @@
-# Weather Minimalist Clean Arch Application Case Study
+# Native Android APP Weather Minimal Clean Arch Case Study
 
 ## About
 Android native kotlin application using open weather api data to test concepts and validate ideas.  
