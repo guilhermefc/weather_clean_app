@@ -1,7 +1,6 @@
 package com.guicarneiro.weathercleanapp.fake
 
 import com.github.javafaker.Faker
-import com.guicarneiro.weathercleanapp.domain.entities.Parent
 import com.guicarneiro.weathercleanapp.domain.entities.Weather
 
 class WeatherFakeFactory {

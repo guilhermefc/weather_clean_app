@@ -3,8 +3,8 @@ package com.guicarneiro.weathercleanapp.presentation.home
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.guicarneiro.weathercleanapp.domain.entities.Weather
 import com.guicarneiro.weathercleanapp.data.common.Result
+import com.guicarneiro.weathercleanapp.domain.entities.WeatherForecast
 import com.guicarneiro.weathercleanapp.domain.usecases.GetWeather
 import kotlinx.coroutines.launch
 
@@ -15,7 +15,7 @@ class HomeViewModel(val getWeatherUseCase: GetWeather): ViewModel() {
     sealed class UiState {
         object Loading: UiState()
         data class Error(val message: String): UiState()
-        data class Success(val weather:Weather): UiState()
+        data class Success(val weather: WeatherForecast): UiState()
     }
 
     fun refreshWeatherData() {

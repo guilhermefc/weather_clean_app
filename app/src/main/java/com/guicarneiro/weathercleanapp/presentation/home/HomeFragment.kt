@@ -1,47 +1,38 @@
 package com.guicarneiro.weathercleanapp.presentation.home
 
-import android.Manifest
-import android.annotation.SuppressLint
-import android.content.pm.PackageManager
-import android.location.Location
-import android.os.Build
 import android.os.Bundle
 import android.text.format.DateFormat
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.OrientationHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.github.javafaker.Weather
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import com.guicarneiro.weathercleanapp.BuildConfig
 import com.guicarneiro.weathercleanapp.R
 import com.guicarneiro.weathercleanapp.databinding.FragmentHomeBinding
-import com.guicarneiro.weathercleanapp.domain.entities.ConsolidatedWeather
-import com.guicarneiro.weathercleanapp.domain.entities.Weather
+import com.guicarneiro.weathercleanapp.domain.entities.WeatherCondition
+import com.guicarneiro.weathercleanapp.domain.entities.WeatherDaily
+import com.guicarneiro.weathercleanapp.domain.entities.WeatherForecast
 import com.guicarneiro.weathercleanapp.presentation.MyApplication
+import com.guicarneiro.weathercleanapp.presentation.common.WeatherTypeToRes
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
-import okhttp3.internal.notify
 import java.lang.Exception
 
 
-class HomeFragment : Fragment(), Callback {
+class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
 
     private val binding get() = _binding!!
     private lateinit var homeViewModel : HomeViewModel
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private lateinit var nextWeatherList: ArrayList<ConsolidatedWeather>
-    private lateinit var nextWeatherListAdapter: WeatherAdapter
+    private var nextWeatherList: ArrayList<WeatherDaily> = ArrayList()
+    private var nextWeatherListAdapter: WeatherAdapter = WeatherAdapter(listOf())
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -113,36 +104,37 @@ class HomeFragment : Fragment(), Callback {
         binding.textviewError.text = message
     }
 
-    private fun showInfo(weather: Weather) {
+    private fun showInfo(weather: WeatherForecast) {
         binding.progressCircular.visibility = View.GONE
-        if(weather.consolidatedWeather.isNotEmpty()) {
-            val recentWeather = weather.consolidatedWeather.first();
-            val dtWeather = DateFormat.getDateFormat(context).format(recentWeather.applicableDate)
-            binding.textviewCity.text = getString(R.string.city_date, weather.title, dtWeather)
+        if(weather.weatherList.isNotEmpty()) {
+            val recentWeather = weather.weatherList.first();
+            val dtWeather = DateFormat.getDateFormat(context).format(recentWeather.date)
+            binding.textviewCity.text = getString(R.string.city_date, weather.location.cityName, dtWeather)
             binding.textviewTemperature.text = resources.getString(
                 R.string.temperature,
-                recentWeather.getTempNow()
+                recentWeather.currentTemperature.toString()
             )
             binding.textviewWeatherCondition.text =
-                recentWeather.weatherStateName
+                recentWeather.condition
             binding.textviewLowHigh.text = resources.getString(
                 R.string.min_and_max_temp,
-                recentWeather.getMinTemp(),
-                recentWeather.getMaxTemp()
+                recentWeather.minTemperature.toString(),
+                recentWeather.maxTemperature.toString()
             )
-            val picassoURL = BuildConfig.API_BASE_URL_IMAGES +
-                    recentWeather.weatherStateAbbr + BuildConfig.API_IMAGES_FORMAT
-            Picasso.get().load(picassoURL).into(binding.imageView, this)
+
+            binding.imageView.setImageResource(WeatherTypeToRes.parseWeatherTypeToResource(recentWeather.conditionType))
+            binding.root.transitionToEnd()
 
 
-            if(weather.consolidatedWeather.size > 1) {
+            if(weather.weatherList.size > 1) {
                 populateRecyclerView(weather)
             }
         }
     }
 
-    private fun populateRecyclerView(weather: Weather) {
-        nextWeatherList = ArrayList(weather.consolidatedWeather.subList(1, weather.consolidatedWeather.size))
+
+    private fun populateRecyclerView(weather: WeatherForecast) {
+        nextWeatherList = ArrayList(weather.weatherList.subList(1, weather.weatherList.size))
         nextWeatherListAdapter = WeatherAdapter(nextWeatherList);
         val linearLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         binding.listview.layoutManager = linearLayoutManager
@@ -161,6 +153,7 @@ class HomeFragment : Fragment(), Callback {
         binding.textviewTemperature.text = null
         binding.textviewWeatherCondition.text = null
         binding.textviewLowHigh.text = null
+
         nextWeatherList.clear()
         nextWeatherListAdapter.notifyDataSetChanged()
     }
@@ -177,10 +170,4 @@ class HomeFragment : Fragment(), Callback {
         super.onDestroyView()
         _binding = null
     }
-
-    override fun onSuccess() {
-        binding.root.transitionToEnd()
-    }
-
-    override fun onError(e: Exception?) {}
 }

@@ -15,9 +15,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField "String", "API_BASE_URL", '"https://cdn.faire.com/"'
-        buildConfigField "String", "API_BASE_URL_IMAGES", '"https://cdn.faire.com/static/mobile-take-home/icons/"'
-        buildConfigField "String", "API_IMAGES_FORMAT", '".png"'
+        buildConfigField "String", "API_BASE_URL", '"https://api.open-meteo.com/"'
 
     }
 

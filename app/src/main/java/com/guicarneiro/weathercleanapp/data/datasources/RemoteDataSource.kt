@@ -1,10 +1,9 @@
 package com.guicarneiro.weathercleanapp.data.datasources
 
-import com.guicarneiro.weathercleanapp.domain.entities.Weather
+import com.guicarneiro.weathercleanapp.data.models.WeatherData
 import retrofit2.http.GET
-import retrofit2.http.Path
 
 interface RemoteDataSource {
-    @GET("static/mobile-take-home/{id}.json")
-    suspend fun getWeatherDataById(@Path("id") id: String): Weather
+    @GET("/v1/forecast?latitude=-34.6118&longitude=-58.4173&daily=weathercode,temperature_2m_max,temperature_2m_min&current_weather=true&timezone=auto")
+    suspend fun getWeatherDataById(): WeatherData
 }
