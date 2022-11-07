@@ -61,7 +61,8 @@ class WeatherRepositoriesImpl(
 
             weatherDailyList.add(
               WeatherDaily(date, data.daily.temperature_2m_min[i].toInt(), data.daily.temperature_2m_max[i].toInt(),
-                  currentTemp.toInt(), data.daily_units.temperature_2m_min, weatherCondition, weatherConditionType)
+                  currentTemp.toInt(),
+                  data.daily_units.temperature_2m_max.lowercase(Locale.US), weatherCondition, weatherConditionType)
             )
         }
 

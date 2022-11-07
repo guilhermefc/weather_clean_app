@@ -1,7 +1,8 @@
 # Native Android APP Weather Minimal Clean Arch Case Study
+<img src="./art/app.png" width="180" height="300">
 
 ## About
-Android native kotlin application using open weather api data to test concepts and validate ideas.  
+Android native kotlin application using open weather api data to test concepts and validate ideas.
 
 ## Steps into building the solution and trade offs
 - Clean architecture showcase separating concerns of presentation domain and data.

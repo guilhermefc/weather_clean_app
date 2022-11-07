@@ -22,6 +22,9 @@ import com.guicarneiro.weathercleanapp.presentation.common.WeatherTypeToRes
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import java.lang.Exception
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class HomeFragment : Fragment() {
@@ -108,11 +111,13 @@ class HomeFragment : Fragment() {
         binding.progressCircular.visibility = View.GONE
         if(weather.weatherList.isNotEmpty()) {
             val recentWeather = weather.weatherList.first();
-            val dtWeather = DateFormat.getDateFormat(context).format(recentWeather.date)
-            binding.textviewCity.text = getString(R.string.city_date, weather.location.cityName, dtWeather)
+            val dtWeather = SimpleDateFormat("MMM dd", Locale.US).format(recentWeather.date)
+            binding.textviewCity.text = getString(R.string.city_date, weather.location.cityName)
+            binding.textviewTodayDate.text = getString(R.string.today_date, dtWeather)
             binding.textviewTemperature.text = resources.getString(
                 R.string.temperature,
-                recentWeather.currentTemperature.toString()
+                recentWeather.currentTemperature.toString(),
+                recentWeather.tempScale
             )
             binding.textviewWeatherCondition.text =
                 recentWeather.condition
@@ -147,12 +152,15 @@ class HomeFragment : Fragment() {
     }
 
     private fun clearView() {
+        binding.root.transitionToStart()
         binding.textviewError.text = null
         binding.imageView.setImageResource(0)
         binding.textviewCity.text = null
+        binding.textviewTodayDate.text = null
         binding.textviewTemperature.text = null
         binding.textviewWeatherCondition.text = null
         binding.textviewLowHigh.text = null
+
 
         nextWeatherList.clear()
         nextWeatherListAdapter.notifyDataSetChanged()
