@@ -46,41 +46,7 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
 
-
     }
-//
-//    @SuppressLint("MissingPermission")
-//    @RequiresApi(Build.VERSION_CODES.N)
-//    private fun getLocation(): Boolean {
-//        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
-//
-//        val locationPermissionRequest = registerForActivityResult(
-//            ActivityResultContracts.RequestMultiplePermissions()
-//        ) { permissions ->
-//            when {
-//                permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
-//                    // Precise location access granted.
-//                }
-//                permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
-//                    // Only approximate location access granted.
-//                } else -> {
-//                // No location access granted.
-//                }
-//            }
-//        }
-//
-//        locationPermissionRequest.launch(arrayOf(
-//            Manifest.permission.ACCESS_COARSE_LOCATION))
-//
-//        fusedLocationClient.lastLocation
-//            .addOnSuccessListener { location: Location? ->
-//                Log.e("loc", "olha a loc: " + location.toString())
-//
-//
-//                // Got last known location. In some rare situations this can be null.
-//            }
-//        return false
-//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -88,8 +54,6 @@ class HomeFragment : Fragment() {
         setupClickListeners()
         setupObservables()
         homeViewModel.refreshWeatherData()
-
-//        getLocation()
     }
 
     private fun setupObservables() {
@@ -161,7 +125,6 @@ class HomeFragment : Fragment() {
         binding.textviewWeatherCondition.text = null
         binding.textviewLowHigh.text = null
 
-
         nextWeatherList.clear()
         nextWeatherListAdapter.notifyDataSetChanged()
     }
@@ -170,7 +133,6 @@ class HomeFragment : Fragment() {
         binding.fab.setOnClickListener {
             clearView()
             homeViewModel.refreshWeatherData()
-//            getLocation()
         }
     }
 

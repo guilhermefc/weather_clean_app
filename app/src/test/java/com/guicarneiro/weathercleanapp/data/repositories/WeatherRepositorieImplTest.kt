@@ -2,7 +2,7 @@ package com.guicarneiro.weathercleanapp.data.repositories
 
 import com.guicarneiro.weathercleanapp.data.common.NetworkService
 import com.guicarneiro.weathercleanapp.data.common.Result
-import com.guicarneiro.weathercleanapp.domain.entities.Weather
+import com.guicarneiro.weathercleanapp.data.models.WeatherData
 import com.guicarneiro.weathercleanapp.domain.repositories.WeatherRepository
 import com.guicarneiro.weathercleanapp.domain.usecases.GetWeather
 import com.guicarneiro.weathercleanapp.fake.WeatherFakeFactory
@@ -25,14 +25,11 @@ class WeatherRepositoriesImplTest {
     @MockK
     private lateinit var networkService: NetworkService
     private lateinit var weatherRepository: WeatherRepository
-    private lateinit var weather: Weather
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
         weatherRepository = WeatherRepositoriesImpl(networkService)
-        weather = WeatherFakeFactory.createFakeWeather();
-
     }
 
     @Test
@@ -51,7 +48,6 @@ class WeatherRepositoriesImplTest {
 
 
         mockWebServer.enqueue(MockResponse().setBody(WeatherFakeFactory.provideFakeWeatherJson()))
-//        mockWebServer.enqueue(MockResponse().setHttp2ErrorCode(400))
 
         val result = weatherRepository.getWeather()
 

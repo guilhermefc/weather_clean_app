@@ -1,7 +1,7 @@
 package com.guicarneiro.weathercleanapp.domain.usecases
 
 import com.guicarneiro.weathercleanapp.data.common.Result
-import com.guicarneiro.weathercleanapp.domain.entities.Weather
+import com.guicarneiro.weathercleanapp.domain.entities.WeatherForecast
 import com.guicarneiro.weathercleanapp.domain.repositories.WeatherRepository
 import com.guicarneiro.weathercleanapp.fake.WeatherFakeFactory
 import io.mockk.MockKAnnotations
@@ -16,7 +16,7 @@ class GetWeatherTest {
     @MockK lateinit var repository: WeatherRepository
 
     private lateinit var getWeather: GetWeather
-    private lateinit var weather: Weather
+    private lateinit var weather: WeatherForecast
 
     @Before
     fun setup() {
