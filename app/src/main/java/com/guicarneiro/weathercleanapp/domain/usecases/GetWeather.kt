@@ -3,8 +3,9 @@ package com.guicarneiro.weathercleanapp.domain.usecases
 import com.guicarneiro.weathercleanapp.data.common.Result
 import com.guicarneiro.weathercleanapp.domain.entities.WeatherForecast
 import com.guicarneiro.weathercleanapp.domain.repositories.WeatherRepository
+import javax.inject.Inject
 
-class GetWeather(
+class GetWeather  @Inject constructor(
     private val weatherRepo: WeatherRepository
 ) {
 

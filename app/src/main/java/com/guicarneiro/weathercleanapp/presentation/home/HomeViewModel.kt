@@ -6,9 +6,12 @@ import androidx.lifecycle.viewModelScope
 import com.guicarneiro.weathercleanapp.data.common.Result
 import com.guicarneiro.weathercleanapp.domain.entities.WeatherForecast
 import com.guicarneiro.weathercleanapp.domain.usecases.GetWeather
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel(val getWeatherUseCase: GetWeather): ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(val getWeatherUseCase: GetWeather): ViewModel() {
 
     val uiState = MutableLiveData<UiState>(UiState.Loading)
 

@@ -1,7 +1,8 @@
 package com.guicarneiro.weathercleanapp.presentation
 
 import android.app.Application
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
 
-class MyApplication: Application() {
-    val appContainer = AppContainer()
-}
+@HiltAndroidApp
+class MyApplication: Application()

@@ -1,9 +1,8 @@
 package com.guicarneiro.weathercleanapp.data.repositories
 
 import android.util.Log
-import com.guicarneiro.weathercleanapp.data.common.NetworkService
 import com.guicarneiro.weathercleanapp.data.common.Result
-import com.guicarneiro.weathercleanapp.data.datasources.RemoteDataSource
+import com.guicarneiro.weathercleanapp.data.datasources.network.RemoteDataSource
 import com.guicarneiro.weathercleanapp.data.models.WeatherData
 import com.guicarneiro.weathercleanapp.domain.entities.Location
 import com.guicarneiro.weathercleanapp.domain.entities.WeatherCondition
@@ -11,24 +10,20 @@ import com.guicarneiro.weathercleanapp.domain.entities.WeatherDaily
 import com.guicarneiro.weathercleanapp.domain.entities.WeatherForecast
 import com.guicarneiro.weathercleanapp.domain.repositories.WeatherRepository
 import retrofit2.HttpException
-import retrofit2.create
 import java.io.IOException
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
 import java.util.*
+import javax.inject.Inject
 
-class WeatherRepositoriesImpl(
-    private val networkService: NetworkService,
+class WeatherRepositoriesImpl @Inject constructor(
+    private val remoteDataSource: RemoteDataSource,
 ): WeatherRepository {
 
     override suspend fun getWeather(): Result<WeatherForecast> {
         return try {
-            val retrofit = networkService.provideRetrofit()
-            val service = retrofit.create<RemoteDataSource>()
-            val result = service.getWeatherDataById()
-            val parsedResult = parse(result)
+                val result = remoteDataSource.getWeather()
 
-            return Result.Success(parsedResult)
+            return Result.Success(parse(result))
         } catch (e: IOException) {
             Log.e("RepoImpl", e.message, e)
             Result.Error("Please check your network connection")

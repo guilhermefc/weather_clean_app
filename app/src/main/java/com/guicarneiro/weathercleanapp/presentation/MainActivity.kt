@@ -3,7 +3,9 @@ package com.guicarneiro.weathercleanapp.presentation
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.guicarneiro.weathercleanapp.databinding.ActivityHomeBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
